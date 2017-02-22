@@ -1,0 +1,112 @@
+<html>
+
+<head>
+    <title>Swarm test</title>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="./css/style.css">
+</head>
+
+<body ng-app='swarmApp' ng-controller='swarmCon'>
+    <div class='panel panel-info'>
+        <div class='panel-heading'>
+            <h2>Swarm Demo</h2></div>
+        <div class='panel-body'>
+            <i>Change parameters (by clicking the &#128269;) for different behaviors. Particles will attempt to stay within min-max distance from nearest neighbor.</i>
+            <button class='btn btn-primary' title='Show/hide options' ng-click='toggleOpts();'>&#128269;</button>
+            <hr/>
+            <div id='swarmOpts'>
+                <div class='row'>
+                    <div class='col-md-3'>Enable Flocking: </div>
+                    <div class='col-md-7'>
+                        <input type="checkbox" ng-model='flocking' title='If enabled, particles will pay attention to min/max distance parameters. Otherwise, they&rsquo;ll just move randomly.' />
+                    </div>
+                </div>
+                <div class='row'>
+                    <div class='col-md-3'>Minimum (repel) distance: </div>
+                    <div class='col-md-7'>
+                        <input type="number" ng-disabled='!flocking' ng-model='minDist' title='Particles will attempt to approach no closer than this distance to their nearest neighbor.' />
+                    </div>
+                </div>
+                <div class='row'>
+                    <div class='col-md-3'>Maximum (attract) distance: </div>
+                    <div class='col-md-7'>
+                        <input type="number" ng-disabled='!flocking' ng-model='maxDist' / title='Particles will attempt to stay within this distance of their nearest neighbor.'>
+                    </div>
+                </div>
+                <div class='row'>
+                    <div class='col-md-3'>Particle size (1-10): </div>
+                    <div class='col-md-7'>
+                        <input type="number" ng-model='partSize' min='1' max='10' title='Size of individual particles' />
+                    </div>
+                </div>
+                <div class='row'>
+                    <div class='col-md-3'>Number of particles: </div>
+                    <div class='col-md-7'>
+                        <input type="number" ng-model='numParts' title='How many particles to include. Changing this will reset the canvas!' ng-change='initParts()' />
+                    </div>
+                </div>
+                <div class='row'>
+                    <div class='col-md-3'>Trail Mode: </div>
+                    <div class='col-md-7'>
+                        <input type="checkbox" ng-model='trailMode' title='Don&rsquo;t clear canvas after each frame render' />
+                    </div>
+                </div>
+                <div class='row'>
+                    <div class='col-md-3'>Afterglow: </div>
+                    <div class='col-md-7'>
+                        <input type="checkbox" ng-disabled='!trailMode' ng-model='glo' title='Particles leave an afterglow. Only available if Trail Mode active' />
+                    </div>
+                </div>
+                <div class='row'>
+                    <div class='col-md-3'>Custom Hue Mode: </div>
+                    <div class='col-md-2'>
+                        <input type="checkbox" ng-model='customHueMode' title='If enabled, this allows you to determine what color the particles are. Otherwise, follows (generally) a black-body color scheme.' />
+                    </div>
+                    <div class='col-md-6' style='background:{{customHueMode?"hsl("+customHue+",100%,50%)":"#aaa"}}'>
+                        <input type="number" ng-model='customHue' title='Desired (base) hue.' ng-disabled='!customHueMode' />
+                    </div>
+                </div>
+                <div class='panel panel-success'>
+                    <div class='panel-heading'>
+                        <h3>Audio</h3></div>
+                    <div class='panel-body'>
+                        <div class='row'>
+                            <div class='col-md-3'>Volume: </div>
+                            <div class='col-md-7'>
+                                <input type="range" ng-model='vol' min='0' max='10' step='.05' title='Adjust audio volume' />
+                            </div>
+                        </div>
+                        <div class='row'>
+                            <div class='col-md-3'>Switch Vol/Freq controls: </div>
+                            <div class='col-md-7'>
+                                <input type="checkbox" title='Normally, Y-axis controls frequency, and X-axis controls volume. This switches that' ng-model='switchAudio'/>
+                            </div>
+                        </div>
+
+                        <div class='row'>
+                            <div class='col-md-3'>Waveform Type: </div>
+                            <div class='col-md-7'>
+                                <select ng-model='waveType' ng-change='alterWaves();'>
+                                    <option value='sine'>Sine</option>
+                                    <option value='square'>Square</option>
+                                    <option value='sawtooth'>Sawtooth</option>
+                                    <option value='triangle'>Triangle</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class='row'>
+                    <button ng-click='rescatter()' class='btn btn-danger' title='If particles are too clumped, try clicking this'>Re-scatter!</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <canvas width='500' height='500' id='myCanv'></canvas>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="./js/main.js"></script>
+</body>
+
+</html>
