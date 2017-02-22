@@ -81,6 +81,10 @@ var app = angular.module('swarmApp', []).controller('swarmCon', function($scope)
                 var thisDist = Math.sqrt(Math.pow(Math.abs(p.x - $scope.parts[i].x), 2) + Math.pow(Math.abs(p.y - $scope.parts[i].y), 2));
                 if (i !== n && thisDist < closestDist) {
                     closestDist = thisDist;
+                    p.targ = {
+                        x: $scope.parts[i].x,
+                        y: $scope.parts[i].y
+                    }
                 }
             }
 
@@ -90,12 +94,20 @@ var app = angular.module('swarmApp', []).controller('swarmCon', function($scope)
             //now, position changes
             //first, random changes & flocking
             if (Math.random() > .97 || ($scope.flocking && (closestDist > $scope.maxDist || closestDist < $scope.minDist && !p.dirChangeTimer))) {
-                p.dirChangeTimer = 60;
-                p.vx = (Math.random() * 4) - 2;
+                p.dirChangeTimer = 30;
+                if(p.x>p.targ.x){
+                  p.vx = (Math.random() * -2);
+                }else{
+                  p.vx = (Math.random() * 2);
+                }
             }
             if (Math.random() > .97 || ($scope.flocking && (closestDist > $scope.maxDist || closestDist < $scope.minDist && !p.dirChangeTimer))) {
-                p.dirChangeTimer = 20;
-                p.vy = (Math.random() * 4) - 2;
+                p.dirChangeTimer = 30;
+                if(p.y>p.targ.y){
+                  p.vy = (Math.random() * -2);
+                }else{
+                  p.vy = (Math.random() * 2);
+                }
             }
             if (p.dirChangeTimer) p.dirChangeTimer--;
 
