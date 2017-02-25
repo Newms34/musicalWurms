@@ -3,3 +3,8 @@ html,body{
   height:100%;
   margin:0;
 }
+
+.mon{
+	position:absolute;
+	color:#fff;
+}
